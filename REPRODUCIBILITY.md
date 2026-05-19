@@ -12,6 +12,10 @@ The reference environment used during package preparation was:
 - NumPy, SciPy, pandas, matplotlib, pytest, hypothesis as pinned in
   `requirements.txt`
 
+No R runtime, CRAN package, or `pmm_fp()` extension is required.  The manuscript
+experiments use the self-contained Python/JAX PMM2/PMM3 implementation in
+`src/masem/pmm_module.py`.
+
 Create a clean environment:
 
 ```bash
