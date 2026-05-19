@@ -7,9 +7,9 @@ PMM-MASEM boundary paper.
 
 The reference environment used during package preparation was:
 
-- Python 3.14
-- JAX/JAXLIB as pinned in `requirements.txt`
-- NumPy, SciPy, pandas, matplotlib, pytest, hypothesis as pinned in
+- Python 3.12/3.14
+- JAX/JAXLIB in the version ranges declared in `requirements.txt`
+- NumPy, SciPy, pandas, matplotlib, pytest, hypothesis as declared in
   `requirements.txt`
 
 The manuscript experiments use the self-contained Python/JAX PMM2/PMM3

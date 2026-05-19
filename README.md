@@ -25,6 +25,9 @@ python -m pytest -q
 python -m experiments.run_all
 ```
 
+The CI workflow runs the test suite on Python 3.12.  The package was also
+verified locally on Python 3.14.
+
 Expected test result:
 
 ```text
