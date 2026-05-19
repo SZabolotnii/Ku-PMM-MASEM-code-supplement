@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Empirical kNN-spacing regimes in the Known-DGP Monte Carlo.  Values are means over five seeds; $g_2=1-c_3^2/(2+c_4)$ is diagnostic and is not interpreted as an end-to-end gain.}
+\label{tab:spacing_regimes}
+\begin{tabular}{lrrrr}
+\toprule
+Regime & $c_3$ & $c_4$ & $g_2$ & selector \\
+\midrule
+Flat Exp(1) & 1.962 & 5.624 & 0.495 & MLE\_fallback \\
+Mild curved gamma & 2.410 & 8.841 & 0.460 & PMM2 \\
+Strong curved gamma & 3.010 & 12.981 & 0.394 & PMM2 \\
+Boundary mixture & 2.272 & 8.442 & 0.494 & PMM2 \\
+Platykurtic uniform & 0.009 & -1.191 & 1.000 & PMM3 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this code supplement, please cite the associated manuscript and this repository."
+title: "PMM-MASEM Code Supplement"
+type: software
+authors:
+  - family-names: Zabolotnii
+    given-names: Serhii
+    orcid: "https://orcid.org/0000-0003-0242-2234"
+repository-code: "https://github.com/SZabolotnii/Ku-PMM-MASEM-code-supplement"
+abstract: "Reproducibility package for PMM-MASEM density-estimation and resampling-proxy experiments."
+keywords:
+  - density estimation
+  - manifold sampling
+  - PMM
+  - MASEM
+  - reproducibility
+license: MIT
+date-released: 2026-05-19

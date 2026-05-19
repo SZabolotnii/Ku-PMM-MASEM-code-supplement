@@ -1,0 +1,11 @@
+# PMM-MASEM dependency manifest
+# Reproducibility: pin exact versions (see Appendix §A.7)
+jax==0.10.0
+jaxlib==0.10.0
+numpy==2.4.4
+scipy==1.17.1
+pandas==2.4.0
+matplotlib==3.10.7
+# Testing
+pytest==9.0.3
+hypothesis==6.152.4
