@@ -10,11 +10,9 @@ generated tables, generated figures, and unit tests for the PMM density
 module.  It does **not** claim to be a full end-to-end MASEM NHR/OLLA benchmark
 suite.
 
-No R, CRAN package, or `pmm_fp()` extension is required for reproduction.  The
-PMM2/PMM3 density module used in the manuscript is implemented directly in
-Python/JAX in `src/masem/pmm_module.py`.  Fractional-power PMM/PATP extensions
-are outside the scope of this supplement and belong to a separate follow-up
-study.
+The PMM2/PMM3 density module used in the manuscript is implemented directly in
+Python/JAX in `src/masem/pmm_module.py`.  This supplement is self-contained for
+the experiments reported in the manuscript.
 
 ## Quick Start
 
