@@ -305,9 +305,12 @@ def _figure_e4(component: pd.DataFrame) -> None:
         )
     ax.set_xlabel("Particles")
     ax.set_ylabel("Component-loss frequency")
-    ax.set_ylim(-0.02, 1.02)
+    ax.set_yscale("symlog", linthresh=0.02, linscale=0.6)
+    ax.set_ylim(-0.002, 1.02)
+    ax.set_yticks([0.0, 0.02, 0.05, 0.10, 0.20, 0.50, 1.00])
+    ax.set_yticklabels(["0", "0.02", "0.05", "0.10", "0.20", "0.50", "1.00"])
     ax.legend(frameon=False, fontsize=8)
-    ax.grid(True, alpha=0.25)
+    ax.grid(True, which="both", alpha=0.25)
     _savefig(ROOT / "figures" / "fig_e4.pdf")
 
 
