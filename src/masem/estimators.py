@@ -6,7 +6,7 @@ Four estimators are compared throughout the paper (Requirement 7.2):
   1. Plugin_Estimator  — k-NN plug-in: q̂(xᵢ) = k / (N · V_p · ε_{i,k}^p)
   2. k_Ensemble        — average over multiple k values (MASEM authors' method)
   3. MLE_Exp           — MLE for Exp(λ) model on shell spacings
-  4. PMM_Estimator     — PMM2/PMM3 moment estimator (full impl in pmm_module.py)
+  4. PMM_Estimator     — guarded PMM2/MLE estimator (full impl in pmm_module.py)
 
 Unified interface
 -----------------
@@ -285,16 +285,17 @@ class MLEExpEstimator:
 
 
 # ---------------------------------------------------------------------------
-# Estimator 4: PMM_Estimator (stub — full implementation in pmm_module.py)
+# Estimator 4: PMM_Estimator
 # ---------------------------------------------------------------------------
 
 class PMMEstimator:
     """
-    PMM2/PMM3 density estimator (Kunchenko 1992; Zabolotnii 2018–2025).
+    Guarded PMM2/MLE density estimator (Kunchenko 1992; Zabolotnii 2018–2025).
 
     This class provides the unified-interface wrapper.  The closed-form
-    PMM2/PMM3 moment expressions and the automatic switching rule are
-    implemented in ``masem.pmm_module`` (task 1.2).
+    PMM2 expression and the automatic switching rule are implemented in
+    ``masem.pmm_module``.  PMM3 density adaptation is disabled until a valid
+    positive shell-spacing estimating equation is derived.
 
     When ``masem.pmm_module`` is not yet available (task 1.2 not complete),
     this estimator falls back to ``MLE_Exp`` with a warning.
@@ -306,7 +307,7 @@ class PMMEstimator:
         unavailable.  Set to False to raise ImportError instead.
     """
 
-    name: str = "PMM2/PMM3"
+    name: str = "PMM2/MLE"
 
     def __init__(self, fallback_to_mle: bool = True) -> None:
         self.fallback_to_mle = fallback_to_mle
@@ -357,7 +358,7 @@ class PMMEstimator:
 
         raise ImportError(
             "masem.pmm_module is required for PMMEstimator but was not found. "
-            "Complete task 1.2 to enable PMM2/PMM3 estimation."
+            "Complete task 1.2 to enable PMM2/MLE estimation."
         )
 
 
@@ -371,7 +372,7 @@ ESTIMATOR_REGISTRY: dict[str, DensityEstimator] = {
     "Plugin_Estimator": PluginEstimator(),
     "k_Ensemble":       kEnsembleEstimator(),
     "MLE_Exp":          MLEExpEstimator(),
-    "PMM2/PMM3":        PMMEstimator(),
+    "PMM2/MLE":         PMMEstimator(),
 }
 
 
@@ -382,7 +383,7 @@ def get_estimator(name: str) -> DensityEstimator:
     Parameters
     ----------
     name : str
-        One of: "Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/PMM3".
+        One of: "Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/MLE".
 
     Returns
     -------

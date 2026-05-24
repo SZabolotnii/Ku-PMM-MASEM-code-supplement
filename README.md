@@ -6,13 +6,15 @@ Estimation"**.
 
 The package is intentionally narrow.  It reproduces the evidence used in the
 paper: a Known-DGP density Monte Carlo, a lightweight resampling-proxy layer,
-generated tables, generated figures, and unit tests for the PMM density
-module.  It does **not** claim to be a full end-to-end MASEM NHR/OLLA benchmark
-suite.
+PMM3-location diagnostic outputs, generated tables, generated figures, and unit
+tests for the PMM density module.  It does **not** claim to be a full
+end-to-end MASEM NHR/OLLA benchmark suite.
 
-The PMM2/PMM3 density module used in the manuscript is implemented directly in
-Python/JAX in `src/masem/pmm_module.py`.  This supplement is self-contained for
-the experiments reported in the manuscript.
+The production PMM2/MLE density module used in the manuscript is implemented
+directly in Python/JAX in `src/masem/pmm_module.py`.  PMM3 is evaluated as a
+guarded location diagnostic for symmetric platykurtic regimes rather than as an
+unconditional production density rule.  This supplement is self-contained for
+the Python experiments reported in the manuscript.
 
 ## Quick Start
 
@@ -31,7 +33,7 @@ verified locally on Python 3.14.
 Expected test result:
 
 ```text
-70 passed
+73 passed
 ```
 
 The reproduction driver regenerates:
@@ -42,6 +44,7 @@ The reproduction driver regenerates:
 - `results/component_loss.csv`
 - `results/iteration_proxy.csv`
 - `results/wallclock.csv`
+- `results/pmm3_platykurtic_spacing_research.csv`
 - `tables/tab1.tex`
 - `tables/tab_e1.tex`
 - `tables/tab_e2.tex`
@@ -56,7 +59,9 @@ The code supports the following bounded claims:
    plug-in/MLE density rule.
 2. PMM2 reduces local density MSE in selected asymmetric gamma and
    boundary-spacing Known-DGP regimes.
-3. PMM3 is not supported by the platykurtic stress case.
+3. PMM3-location has a narrower positive diagnostic result under strict
+   symmetric platykurtic guards, but it is not promoted to the production
+   density selector.
 4. The resampling-proxy layer is mixed: it improves the seven-lobes proxy but
    degrades the sine and swiss-roll proxies.
 

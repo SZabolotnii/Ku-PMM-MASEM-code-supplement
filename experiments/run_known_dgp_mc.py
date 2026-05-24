@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from experiments.known_dgp_generator import REGIMES, SpacingRegime, generate_spacings
 from masem.pmm_module import (  # noqa: E402
     _estimate_cumulants,
+    _estimate_pmm3_moments,
     _is_exp1_like,
     _mle_density,
     _pmm2_density,
@@ -24,7 +25,7 @@ from masem.pmm_module import (  # noqa: E402
 )
 
 
-ESTIMATORS = ("Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/PMM3")
+ESTIMATORS = ("Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/MLE")
 
 
 def _branch(c3: float, c4: float) -> str:
@@ -32,17 +33,29 @@ def _branch(c3: float, c4: float) -> str:
     exp_like = bool(_is_exp1_like(jnp.asarray(c3), jnp.asarray(c4)))
     denom_pmm2 = 2.0 + c4
     g2 = 1.0 - c3**2 / max(denom_pmm2, 1e-10)
-    denom_pmm3 = 21.0 + 9.0 * c4
-    g3 = 1.0 - c4**2 / max(abs(denom_pmm3), 1e-10)
     pmm2_valid = denom_pmm2 >= 0.1 and 0.0 <= g2 <= 1.0
-    pmm3_valid = abs(denom_pmm3) >= 0.1 and 0.0 <= g3 <= 1.0
     if exp_like:
         return "MLE_fallback"
     if abs(c3) > 0.3 and pmm2_valid:
         return "PMM2"
-    if abs(c3) <= 0.3 and c4 < -0.5 and pmm3_valid:
-        return "PMM3"
+    if abs(c3) <= 0.3 and c4 < -0.5:
+        return "PMM3_disabled"
     return "MLE_fallback"
+
+
+def _fallback_reason(c3: float, c4: float, branch: str) -> str:
+    """Human-readable selector reason for result auditing."""
+    if branch == "PMM2":
+        return "PMM2_valid_asymmetric_spacing_regime"
+    if branch == "PMM3_disabled":
+        return "PMM3_density_adaptation_not_derived_fallback_to_MLE"
+    if bool(_is_exp1_like(jnp.asarray(c3), jnp.asarray(c4))):
+        return "flat_Exp1_MLE_is_reference"
+    denom_pmm2 = 2.0 + c4
+    g2 = 1.0 - c3**2 / max(denom_pmm2, 1e-10)
+    if abs(c3) > 0.3 and not (denom_pmm2 >= 0.1 and 0.0 <= g2 <= 1.0):
+        return "PMM2_invalid_g2_or_denominator"
+    return "no_valid_PMM_branch"
 
 
 def _density_estimates(
@@ -68,7 +81,7 @@ def _density_estimates(
         for k_i in k_values:
             rho += k_i / np.maximum(np.sum(s_full[:, :k_i], axis=1), 1e-300)
         return rho / len(k_values)
-    if estimator == "PMM2/PMM3":
+    if estimator == "PMM2/MLE":
         c3, c4 = _estimate_cumulants(s_jax)
         rho = _select_density_estimate(delta, s_jax, c3, c4, n_particles)
         return np.asarray(rho, dtype=np.float64)
@@ -102,11 +115,15 @@ def _rows_for_regime(
     s_full = generate_spacings(regime, n_particles=n_particles, k_max=k_max, seed=seed)
     s = s_full[:, :primary_k]
     c3_j, c4_j = _estimate_cumulants(jnp.asarray(s))
+    pmm3_mom = _estimate_pmm3_moments(jnp.asarray(s))
     c3 = float(c3_j)
     c4 = float(c4_j)
     branch = _branch(c3, c4)
+    fallback_reason = _fallback_reason(c3, c4, branch)
     g2 = float(1.0 - c3**2 / max(2.0 + c4, 1e-10))
-    g3 = float(1.0 - c4**2 / max(abs(21.0 + 9.0 * c4), 1e-10))
+    gamma6 = float(pmm3_mom.gamma6)
+    kappa = float(pmm3_mom.kappa)
+    g3 = float(pmm3_mom.g3)
     mle_mse, pmm2_mse, pmm3_mse = _candidate_mse(s_full, n_particles, primary_k)
 
     rows: list[dict[str, object]] = []
@@ -131,8 +148,11 @@ def _rows_for_regime(
                 "c3": c3,
                 "c4": c4,
                 "g2": g2,
-                "g3": g3,
+                "gamma6": gamma6,
+                "kappa": kappa,
+                "g3_estem": g3,
                 "selector_branch": branch,
+                "fallback_reason": fallback_reason,
                 "density_bias": float(np.mean(rho - 1.0)),
                 "density_variance": float(np.var(rho, ddof=1)),
                 "density_mse": mse,
@@ -152,16 +172,25 @@ def main() -> None:
     seeds = [11, 17, 23, 31, 43]
     rows: list[dict[str, object]] = []
     for regime in REGIMES:
-        for seed in seeds:
-            rows.extend(
-                _rows_for_regime(
-                    regime,
-                    seed=seed,
-                    n_particles=900,
-                    primary_k=16,
-                    k_max=32,
+        if regime.name == "platykurtic_uniform":
+            jobs = [
+                (n_particles, k)
+                for n_particles in (900, 3000)
+                for k in (8, 16, 32, 64, 128)
+            ]
+        else:
+            jobs = [(900, 16)]
+        for n_particles, primary_k in jobs:
+            for seed in seeds:
+                rows.extend(
+                    _rows_for_regime(
+                        regime,
+                        seed=seed,
+                        n_particles=n_particles,
+                        primary_k=primary_k,
+                        k_max=max(2 * primary_k, primary_k),
+                    )
                 )
-            )
 
     with out_path.open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
@@ -172,4 +201,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

@@ -51,7 +51,7 @@ BENCHMARKS: tuple[ProxySpec, ...] = (
 )
 
 SEEDS = [11, 17, 23, 31, 43]
-ESTIMATORS = ("Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/PMM3")
+ESTIMATORS = ("Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/MLE")
 
 
 def _sample_disk(center: np.ndarray, radius: float, count: int, rng: np.random.Generator) -> np.ndarray:
@@ -182,12 +182,10 @@ def _branch_for_points(points: np.ndarray, spec: ProxySpec) -> tuple[str, float,
         return "MLE_fallback", c3, c4
     denom_pmm2 = 2.0 + c4
     g2 = 1.0 - c3**2 / max(denom_pmm2, 1e-10)
-    denom_pmm3 = 21.0 + 9.0 * c4
-    g3 = 1.0 - c4**2 / max(abs(denom_pmm3), 1e-10)
     if abs(c3) > 0.3 and denom_pmm2 >= 0.1 and 0.0 <= g2 <= 1.0:
         return "PMM2", c3, c4
-    if abs(c3) <= 0.3 and c4 < -0.5 and abs(denom_pmm3) >= 0.1 and 0.0 <= g3 <= 1.0:
-        return "PMM3", c3, c4
+    if abs(c3) <= 0.3 and c4 < -0.5:
+        return "PMM3_disabled", c3, c4
     return "MLE_fallback", c3, c4
 
 
@@ -259,7 +257,7 @@ def _evaluate(
         "component_loss": int(len(missing) > 0),
         "missing_fraction": len(missing) / max(spec.n_components, 1),
         "wallclock_sec": wallclock,
-        "selector_branch": branch if estimator_name == "PMM2/PMM3" else "not_applicable",
+        "selector_branch": branch if estimator_name == "PMM2/MLE" else "not_applicable",
         "c3": c3,
         "c4": c4,
         "protocol": "single_step_resampling_proxy",

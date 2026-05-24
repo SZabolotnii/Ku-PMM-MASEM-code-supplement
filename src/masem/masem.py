@@ -245,7 +245,7 @@ class MASEM:
     MASEM — Manifold Sampling via Entropy Maximization.
 
     Implements the full MASEM algorithm (Braun et al., 2026) in JAX with:
-    - Modular density estimator (Plugin, k-Ensemble, MLE-Exp, PMM2/PMM3)
+    - Modular density estimator (Plugin, k-Ensemble, MLE-Exp, PMM2/MLE)
     - Modular local kernel (NHR or OLLA)
     - Slack-penalty from Appendix D.5
     - Fixed seeds for reproducibility

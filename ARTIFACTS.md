@@ -19,7 +19,8 @@ Manuscript role:
 - Verifies the flat `Exp(1)` MLE fallback.
 - Shows PMM2 density-MSE reduction in asymmetric gamma and boundary-spacing
   regimes.
-- Shows PMM3 degradation in the platykurtic uniform stress case.
+- Separates symmetric platykurtic panels into the PMM3-location diagnostic
+  branch rather than the production density selector.
 
 ## Resampling Proxy
 
@@ -62,6 +63,35 @@ Tests:
 
 Manuscript role:
 
-- Implements the gated PMM2/PMM3 density rule.
+- Implements the gated PMM2/MLE production density rule with PMM3-location
+  diagnostics kept separate.
 - Confirms that flat spacing regimes fall back to MLE/Plugin.
 - Confirms shape, normalization, and JAX tracing behaviour.
+
+## PMM3-Location Diagnostics
+
+Primary Python driver:
+
+- `experiments/research_pmm3_platykurtic_spacing.py`
+
+Generated output:
+
+- `results/pmm3_platykurtic_spacing_research.csv`
+
+Optional R sanity-check drivers:
+
+- `experiments/research_pmm3_platykurtic_regression.R`
+- `experiments/verify_estempmm_pmm3_uniform.R`
+
+Generated optional output:
+
+- `results/pmm3_platykurtic_regression_research.csv`
+
+Manuscript role:
+
+- Checks the centered PMM3 location equation under symmetric platykurtic
+  residual laws.
+- Tests whether the location equation can be adapted to positive shell-spacing
+  panels under strict guards.
+- Supports PMM3 only as conditional diagnostic evidence, not as an end-to-end
+  production MASEM claim.

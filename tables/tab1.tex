@@ -1,16 +1,19 @@
 \begin{table}[t]
 \centering
-\caption{Empirical kNN-spacing regimes in the Known-DGP Monte Carlo.  Values are means over five seeds; $g_2=1-c_3^2/(2+c_4)$ is diagnostic and is not interpreted as an end-to-end gain.}
+\caption{Empirical kNN-spacing regimes in the Known-DGP Monte Carlo.  Values are means over five seeds; $g_2$ is the coefficient in Eq.~\eqref{eq:pmm2_variance_coefficient}, and $g_3$ is the PMM3 efficiency coefficient for symmetric distributions in Eq.~\eqref{eq:pmm3_variance_coefficient}.  Neither coefficient is interpreted as an end-to-end gain.}
 \label{tab:spacing_regimes}
-\begin{tabular}{lrrrr}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
 \toprule
-Regime & $c_3$ & $c_4$ & $g_2$ & selector \\
+Regime & $c_3$ & $c_4$ & $g_2$ & $\gamma_6$ & $g_3$ & selector \\
 \midrule
-Flat Exp(1) & 1.962 & 5.624 & 0.495 & MLE\_fallback \\
-Mild curved gamma & 2.410 & 8.841 & 0.460 & PMM2 \\
-Strong curved gamma & 3.010 & 12.981 & 0.394 & PMM2 \\
-Boundary mixture & 2.272 & 8.442 & 0.494 & PMM2 \\
-Platykurtic uniform & 0.009 & -1.191 & 1.000 & PMM3 \\
+Flat Exp(1) & 1.962 & 5.624 & 0.495 & 125.768 & 0.825 & MLE fallback \\
+Mild curved gamma & 2.410 & 8.841 & 0.460 & 359.536 & 0.802 & PMM2 \\
+Strong curved gamma & 3.010 & 12.981 & 0.394 & 506.897 & 0.727 & PMM2 \\
+Boundary mixture & 2.272 & 8.442 & 0.494 & 426.228 & 0.825 & PMM2 \\
+Platykurtic uniform & 0.004 & -1.198 & 1.000 & 6.835 & 0.302 & PMM3-location diagnostic \\
+Platykurtic beta & 0.001 & -0.865 & 1.000 & 3.891 & 0.645 & PMM3-location diagnostic \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}

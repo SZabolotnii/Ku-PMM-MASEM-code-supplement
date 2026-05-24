@@ -4,7 +4,7 @@ density estimation.
 
 Package structure:
   masem.estimators  — unified density estimator interface (Plugin, k_Ensemble,
-                      MLE-Exp, PMM2/PMM3)
+                      MLE-Exp, PMM2/MLE)
   masem.spacings    — kNN shell-spacing utilities
   masem.resampling  — MASEM resampling step
 """

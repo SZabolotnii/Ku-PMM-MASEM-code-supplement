@@ -1,121 +1,121 @@
 benchmark,benchmark_label,seed,estimator,n_particles,k,tau,wallclock_sec,protocol
-disconnected_disks,Disconnected disks,11,Plugin_Estimator,220,12,0.9,0.3795061669952702,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,11,k_Ensemble,220,12,0.9,0.04624908301047981,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,11,MLE_Exp,220,12,0.9,0.03613949997816235,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,11,PMM2/PMM3,220,12,0.9,0.10280074999900535,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,17,Plugin_Estimator,220,12,0.9,0.00298641697736457,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,17,k_Ensemble,220,12,0.9,0.002966999978525564,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,17,MLE_Exp,220,12,0.9,0.0028727499884553254,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,17,PMM2/PMM3,220,12,0.9,0.003267624997533858,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,23,Plugin_Estimator,220,12,0.9,0.0029751659894827753,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,23,k_Ensemble,220,12,0.9,0.002896457997849211,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,23,MLE_Exp,220,12,0.9,0.0029138330137357116,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,23,PMM2/PMM3,220,12,0.9,0.0034101670025847852,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,31,Plugin_Estimator,220,12,0.9,0.002880874992115423,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,31,k_Ensemble,220,12,0.9,0.002849666983820498,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,31,MLE_Exp,220,12,0.9,0.002826875017490238,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,31,PMM2/PMM3,220,12,0.9,0.0033380000095348805,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,43,Plugin_Estimator,220,12,0.9,0.002885666996007785,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,43,k_Ensemble,220,12,0.9,0.002920250000897795,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,43,MLE_Exp,220,12,0.9,0.002858291001757607,single_step_resampling_proxy
-disconnected_disks,Disconnected disks,43,PMM2/PMM3,220,12,0.9,0.003828332992270589,single_step_resampling_proxy
-seven_lobes,Seven lobes,11,Plugin_Estimator,220,12,0.95,0.0050728330097626895,single_step_resampling_proxy
-seven_lobes,Seven lobes,11,k_Ensemble,220,12,0.95,0.004688292014179751,single_step_resampling_proxy
-seven_lobes,Seven lobes,11,MLE_Exp,220,12,0.95,0.007973375002620742,single_step_resampling_proxy
-seven_lobes,Seven lobes,11,PMM2/PMM3,220,12,0.95,0.006893915997352451,single_step_resampling_proxy
-seven_lobes,Seven lobes,17,Plugin_Estimator,220,12,0.95,0.0033499160199426115,single_step_resampling_proxy
-seven_lobes,Seven lobes,17,k_Ensemble,220,12,0.95,0.0030597920122090727,single_step_resampling_proxy
-seven_lobes,Seven lobes,17,MLE_Exp,220,12,0.95,0.0030010840273462236,single_step_resampling_proxy
-seven_lobes,Seven lobes,17,PMM2/PMM3,220,12,0.95,0.003253500006394461,single_step_resampling_proxy
-seven_lobes,Seven lobes,23,Plugin_Estimator,220,12,0.95,0.0033982500026468188,single_step_resampling_proxy
-seven_lobes,Seven lobes,23,k_Ensemble,220,12,0.95,0.0029862080118618906,single_step_resampling_proxy
-seven_lobes,Seven lobes,23,MLE_Exp,220,12,0.95,0.0028410419763531536,single_step_resampling_proxy
-seven_lobes,Seven lobes,23,PMM2/PMM3,220,12,0.95,0.0033991670061368495,single_step_resampling_proxy
-seven_lobes,Seven lobes,31,Plugin_Estimator,220,12,0.95,0.0028667910082731396,single_step_resampling_proxy
-seven_lobes,Seven lobes,31,k_Ensemble,220,12,0.95,0.0029671670054085553,single_step_resampling_proxy
-seven_lobes,Seven lobes,31,MLE_Exp,220,12,0.95,0.0027271660219412297,single_step_resampling_proxy
-seven_lobes,Seven lobes,31,PMM2/PMM3,220,12,0.95,0.003306875005364418,single_step_resampling_proxy
-seven_lobes,Seven lobes,43,Plugin_Estimator,220,12,0.95,0.0028597920027095824,single_step_resampling_proxy
-seven_lobes,Seven lobes,43,k_Ensemble,220,12,0.95,0.0031105829984880984,single_step_resampling_proxy
-seven_lobes,Seven lobes,43,MLE_Exp,220,12,0.95,0.002850374992704019,single_step_resampling_proxy
-seven_lobes,Seven lobes,43,PMM2/PMM3,220,12,0.95,0.003239082987420261,single_step_resampling_proxy
-sine,Sine curve,11,Plugin_Estimator,220,12,0.75,0.004429916007211432,single_step_resampling_proxy
-sine,Sine curve,11,k_Ensemble,220,12,0.75,0.0027765409904532135,single_step_resampling_proxy
-sine,Sine curve,11,MLE_Exp,220,12,0.75,0.0028565840038936585,single_step_resampling_proxy
-sine,Sine curve,11,PMM2/PMM3,220,12,0.75,0.0031850409868638963,single_step_resampling_proxy
-sine,Sine curve,17,Plugin_Estimator,220,12,0.75,0.0029123749991413206,single_step_resampling_proxy
-sine,Sine curve,17,k_Ensemble,220,12,0.75,0.002729291998548433,single_step_resampling_proxy
-sine,Sine curve,17,MLE_Exp,220,12,0.75,0.0027040830173064023,single_step_resampling_proxy
-sine,Sine curve,17,PMM2/PMM3,220,12,0.75,0.003169000003254041,single_step_resampling_proxy
-sine,Sine curve,23,Plugin_Estimator,220,12,0.75,0.0030381670221686363,single_step_resampling_proxy
-sine,Sine curve,23,k_Ensemble,220,12,0.75,0.0027422500133980066,single_step_resampling_proxy
-sine,Sine curve,23,MLE_Exp,220,12,0.75,0.0025992500013671815,single_step_resampling_proxy
-sine,Sine curve,23,PMM2/PMM3,220,12,0.75,0.003146875009406358,single_step_resampling_proxy
-sine,Sine curve,31,Plugin_Estimator,220,12,0.75,0.002797666995320469,single_step_resampling_proxy
-sine,Sine curve,31,k_Ensemble,220,12,0.75,0.003164207999361679,single_step_resampling_proxy
-sine,Sine curve,31,MLE_Exp,220,12,0.75,0.002831374993547797,single_step_resampling_proxy
-sine,Sine curve,31,PMM2/PMM3,220,12,0.75,0.017485083983046934,single_step_resampling_proxy
-sine,Sine curve,43,Plugin_Estimator,220,12,0.75,0.05833491598605178,single_step_resampling_proxy
-sine,Sine curve,43,k_Ensemble,220,12,0.75,0.014723667001817375,single_step_resampling_proxy
-sine,Sine curve,43,MLE_Exp,220,12,0.75,0.004472041997360066,single_step_resampling_proxy
-sine,Sine curve,43,PMM2/PMM3,220,12,0.75,0.004552292026346549,single_step_resampling_proxy
-swiss_roll,Swiss roll,11,Plugin_Estimator,220,12,0.9,0.06863516601151787,single_step_resampling_proxy
-swiss_roll,Swiss roll,11,k_Ensemble,220,12,0.9,0.003070542006753385,single_step_resampling_proxy
-swiss_roll,Swiss roll,11,MLE_Exp,220,12,0.9,0.0029603329894598573,single_step_resampling_proxy
-swiss_roll,Swiss roll,11,PMM2/PMM3,220,12,0.9,0.005146957992110401,single_step_resampling_proxy
-swiss_roll,Swiss roll,17,Plugin_Estimator,220,12,0.9,0.00307837498257868,single_step_resampling_proxy
-swiss_roll,Swiss roll,17,k_Ensemble,220,12,0.9,0.002978833013912663,single_step_resampling_proxy
-swiss_roll,Swiss roll,17,MLE_Exp,220,12,0.9,0.0029915409977547824,single_step_resampling_proxy
-swiss_roll,Swiss roll,17,PMM2/PMM3,220,12,0.9,0.0034730829938780516,single_step_resampling_proxy
-swiss_roll,Swiss roll,23,Plugin_Estimator,220,12,0.9,0.003043707984033972,single_step_resampling_proxy
-swiss_roll,Swiss roll,23,k_Ensemble,220,12,0.9,0.0029209999775048345,single_step_resampling_proxy
-swiss_roll,Swiss roll,23,MLE_Exp,220,12,0.9,0.002933042007498443,single_step_resampling_proxy
-swiss_roll,Swiss roll,23,PMM2/PMM3,220,12,0.9,0.003329500003019348,single_step_resampling_proxy
-swiss_roll,Swiss roll,31,Plugin_Estimator,220,12,0.9,0.004061790998093784,single_step_resampling_proxy
-swiss_roll,Swiss roll,31,k_Ensemble,220,12,0.9,0.0029500000237021595,single_step_resampling_proxy
-swiss_roll,Swiss roll,31,MLE_Exp,220,12,0.9,0.0029932089964859188,single_step_resampling_proxy
-swiss_roll,Swiss roll,31,PMM2/PMM3,220,12,0.9,0.003773125004954636,single_step_resampling_proxy
-swiss_roll,Swiss roll,43,Plugin_Estimator,220,12,0.9,0.003009333013324067,single_step_resampling_proxy
-swiss_roll,Swiss roll,43,k_Ensemble,220,12,0.9,0.0032285000197589397,single_step_resampling_proxy
-swiss_roll,Swiss roll,43,MLE_Exp,220,12,0.9,0.0029704170010518283,single_step_resampling_proxy
-swiss_roll,Swiss roll,43,PMM2/PMM3,220,12,0.9,0.003934499982278794,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,11,Plugin_Estimator,220,12,0.8,0.0028879999881610274,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,11,k_Ensemble,220,12,0.8,0.003240207995986566,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,11,MLE_Exp,220,12,0.8,0.0028889579989481717,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,11,PMM2/PMM3,220,12,0.8,0.003348458994878456,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,17,Plugin_Estimator,220,12,0.8,0.0029670420044567436,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,17,k_Ensemble,220,12,0.8,0.002980000019306317,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,17,MLE_Exp,220,12,0.8,0.003082292008912191,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,17,PMM2/PMM3,220,12,0.8,0.003680374997202307,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,23,Plugin_Estimator,220,12,0.8,0.0036042080027982593,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,23,k_Ensemble,220,12,0.8,0.0030652919958811253,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,23,MLE_Exp,220,12,0.8,0.003166707989294082,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,23,PMM2/PMM3,220,12,0.8,0.003344916010973975,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,31,Plugin_Estimator,220,12,0.8,0.0035142499837093055,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,31,k_Ensemble,220,12,0.8,0.002990999986650422,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,31,MLE_Exp,220,12,0.8,0.0033570420055184513,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,31,PMM2/PMM3,220,12,0.8,0.003504374995827675,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,43,Plugin_Estimator,220,12,0.8,0.0030313750030472875,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,43,k_Ensemble,220,12,0.8,0.0031462920014746487,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,43,MLE_Exp,220,12,0.8,0.0029402079817373306,single_step_resampling_proxy
-scaling_stress,Scaling stress-test,43,PMM2/PMM3,220,12,0.8,0.0034680830140132457,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,11,Plugin_Estimator,220,12,0.85,0.0029122910054866225,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,11,k_Ensemble,220,12,0.85,0.002843208989361301,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,11,MLE_Exp,220,12,0.85,0.00285445898771286,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,11,PMM2/PMM3,220,12,0.85,0.003338250011438504,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,17,Plugin_Estimator,220,12,0.85,0.002897750004194677,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,17,k_Ensemble,220,12,0.85,0.0029211670043878257,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,17,MLE_Exp,220,12,0.85,0.0029066250135656446,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,17,PMM2/PMM3,220,12,0.85,0.003286915976786986,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,23,Plugin_Estimator,220,12,0.85,0.0029772910056635737,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,23,k_Ensemble,220,12,0.85,0.0028544590168166906,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,23,MLE_Exp,220,12,0.85,0.004280416993424296,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,23,PMM2/PMM3,220,12,0.85,0.003455625002970919,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,31,Plugin_Estimator,220,12,0.85,0.0029786250088363886,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,31,k_Ensemble,220,12,0.85,0.002938290999736637,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,31,MLE_Exp,220,12,0.85,0.0027882919821422547,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,31,PMM2/PMM3,220,12,0.85,0.0033508340129628778,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,43,Plugin_Estimator,220,12,0.85,0.0028612920141313225,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,43,k_Ensemble,220,12,0.85,0.002904082997702062,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,43,MLE_Exp,220,12,0.85,0.0028051249973941594,single_step_resampling_proxy
-robotics_proxy,Robotics corridor proxy,43,PMM2/PMM3,220,12,0.85,0.003427708987146616,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,11,Plugin_Estimator,220,12,0.9,0.3819863750250079,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,11,k_Ensemble,220,12,0.9,0.05007087503327057,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,11,MLE_Exp,220,12,0.9,0.033885124954394996,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,11,PMM2/MLE,220,12,0.9,0.06644154095556587,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,17,Plugin_Estimator,220,12,0.9,0.00322770798811689,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,17,k_Ensemble,220,12,0.9,0.003423499991185963,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,17,MLE_Exp,220,12,0.9,0.0030100420117378235,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,17,PMM2/MLE,220,12,0.9,0.0031889170059002936,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,23,Plugin_Estimator,220,12,0.9,0.003165000001899898,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,23,k_Ensemble,220,12,0.9,0.0029320830362848938,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,23,MLE_Exp,220,12,0.9,0.0030635829898528755,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,23,PMM2/MLE,220,12,0.9,0.0031694170320406556,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,31,Plugin_Estimator,220,12,0.9,0.0028921670163981616,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,31,k_Ensemble,220,12,0.9,0.0029315410065464675,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,31,MLE_Exp,220,12,0.9,0.0028767079929821193,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,31,PMM2/MLE,220,12,0.9,0.0032014999887906015,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,43,Plugin_Estimator,220,12,0.9,0.002942749997600913,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,43,k_Ensemble,220,12,0.9,0.0030590410460717976,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,43,MLE_Exp,220,12,0.9,0.0029613749939016998,single_step_resampling_proxy
+disconnected_disks,Disconnected disks,43,PMM2/MLE,220,12,0.9,0.003124083043076098,single_step_resampling_proxy
+seven_lobes,Seven lobes,11,Plugin_Estimator,220,12,0.95,0.002786458993796259,single_step_resampling_proxy
+seven_lobes,Seven lobes,11,k_Ensemble,220,12,0.95,0.0028823749744333327,single_step_resampling_proxy
+seven_lobes,Seven lobes,11,MLE_Exp,220,12,0.95,0.0027208339888602495,single_step_resampling_proxy
+seven_lobes,Seven lobes,11,PMM2/MLE,220,12,0.95,0.002953584014903754,single_step_resampling_proxy
+seven_lobes,Seven lobes,17,Plugin_Estimator,220,12,0.95,0.003052333020605147,single_step_resampling_proxy
+seven_lobes,Seven lobes,17,k_Ensemble,220,12,0.95,0.0029490420129150152,single_step_resampling_proxy
+seven_lobes,Seven lobes,17,MLE_Exp,220,12,0.95,0.0028010410023853183,single_step_resampling_proxy
+seven_lobes,Seven lobes,17,PMM2/MLE,220,12,0.95,0.003197540994733572,single_step_resampling_proxy
+seven_lobes,Seven lobes,23,Plugin_Estimator,220,12,0.95,0.0028752090292982757,single_step_resampling_proxy
+seven_lobes,Seven lobes,23,k_Ensemble,220,12,0.95,0.002956042008008808,single_step_resampling_proxy
+seven_lobes,Seven lobes,23,MLE_Exp,220,12,0.95,0.002846207993570715,single_step_resampling_proxy
+seven_lobes,Seven lobes,23,PMM2/MLE,220,12,0.95,0.0030843749991618097,single_step_resampling_proxy
+seven_lobes,Seven lobes,31,Plugin_Estimator,220,12,0.95,0.0028308749897405505,single_step_resampling_proxy
+seven_lobes,Seven lobes,31,k_Ensemble,220,12,0.95,0.0029049579752609134,single_step_resampling_proxy
+seven_lobes,Seven lobes,31,MLE_Exp,220,12,0.95,0.0027685000095516443,single_step_resampling_proxy
+seven_lobes,Seven lobes,31,PMM2/MLE,220,12,0.95,0.0031015410204418004,single_step_resampling_proxy
+seven_lobes,Seven lobes,43,Plugin_Estimator,220,12,0.95,0.0028954590088687837,single_step_resampling_proxy
+seven_lobes,Seven lobes,43,k_Ensemble,220,12,0.95,0.0028938750037923455,single_step_resampling_proxy
+seven_lobes,Seven lobes,43,MLE_Exp,220,12,0.95,0.0028980839997529984,single_step_resampling_proxy
+seven_lobes,Seven lobes,43,PMM2/MLE,220,12,0.95,0.0030569169903174043,single_step_resampling_proxy
+sine,Sine curve,11,Plugin_Estimator,220,12,0.75,0.004489000013563782,single_step_resampling_proxy
+sine,Sine curve,11,k_Ensemble,220,12,0.75,0.0027747919666580856,single_step_resampling_proxy
+sine,Sine curve,11,MLE_Exp,220,12,0.75,0.002858875028323382,single_step_resampling_proxy
+sine,Sine curve,11,PMM2/MLE,220,12,0.75,0.0031336669926531613,single_step_resampling_proxy
+sine,Sine curve,17,Plugin_Estimator,220,12,0.75,0.0027535000117495656,single_step_resampling_proxy
+sine,Sine curve,17,k_Ensemble,220,12,0.75,0.002766124962363392,single_step_resampling_proxy
+sine,Sine curve,17,MLE_Exp,220,12,0.75,0.002632250019814819,single_step_resampling_proxy
+sine,Sine curve,17,PMM2/MLE,220,12,0.75,0.0031486660009250045,single_step_resampling_proxy
+sine,Sine curve,23,Plugin_Estimator,220,12,0.75,0.002681999991182238,single_step_resampling_proxy
+sine,Sine curve,23,k_Ensemble,220,12,0.75,0.0026275000418536365,single_step_resampling_proxy
+sine,Sine curve,23,MLE_Exp,220,12,0.75,0.002544792019762099,single_step_resampling_proxy
+sine,Sine curve,23,PMM2/MLE,220,12,0.75,0.0028329589986242354,single_step_resampling_proxy
+sine,Sine curve,31,Plugin_Estimator,220,12,0.75,0.0029807499959133565,single_step_resampling_proxy
+sine,Sine curve,31,k_Ensemble,220,12,0.75,0.0026942919939756393,single_step_resampling_proxy
+sine,Sine curve,31,MLE_Exp,220,12,0.75,0.002709333028178662,single_step_resampling_proxy
+sine,Sine curve,31,PMM2/MLE,220,12,0.75,0.002966000000014901,single_step_resampling_proxy
+sine,Sine curve,43,Plugin_Estimator,220,12,0.75,0.0027918750420212746,single_step_resampling_proxy
+sine,Sine curve,43,k_Ensemble,220,12,0.75,0.0029732909752056003,single_step_resampling_proxy
+sine,Sine curve,43,MLE_Exp,220,12,0.75,0.002685916027985513,single_step_resampling_proxy
+sine,Sine curve,43,PMM2/MLE,220,12,0.75,0.003107875003479421,single_step_resampling_proxy
+swiss_roll,Swiss roll,11,Plugin_Estimator,220,12,0.9,0.06115500000305474,single_step_resampling_proxy
+swiss_roll,Swiss roll,11,k_Ensemble,220,12,0.9,0.0030239999759942293,single_step_resampling_proxy
+swiss_roll,Swiss roll,11,MLE_Exp,220,12,0.9,0.0029363330104388297,single_step_resampling_proxy
+swiss_roll,Swiss roll,11,PMM2/MLE,220,12,0.9,0.0035453750169835985,single_step_resampling_proxy
+swiss_roll,Swiss roll,17,Plugin_Estimator,220,12,0.9,0.0029375419835560024,single_step_resampling_proxy
+swiss_roll,Swiss roll,17,k_Ensemble,220,12,0.9,0.0029946659924462438,single_step_resampling_proxy
+swiss_roll,Swiss roll,17,MLE_Exp,220,12,0.9,0.0029269170481711626,single_step_resampling_proxy
+swiss_roll,Swiss roll,17,PMM2/MLE,220,12,0.9,0.0032472910243086517,single_step_resampling_proxy
+swiss_roll,Swiss roll,23,Plugin_Estimator,220,12,0.9,0.0029695420525968075,single_step_resampling_proxy
+swiss_roll,Swiss roll,23,k_Ensemble,220,12,0.9,0.003004666999913752,single_step_resampling_proxy
+swiss_roll,Swiss roll,23,MLE_Exp,220,12,0.9,0.002998500014655292,single_step_resampling_proxy
+swiss_roll,Swiss roll,23,PMM2/MLE,220,12,0.9,0.0031639160006307065,single_step_resampling_proxy
+swiss_roll,Swiss roll,31,Plugin_Estimator,220,12,0.9,0.0029660839936695993,single_step_resampling_proxy
+swiss_roll,Swiss roll,31,k_Ensemble,220,12,0.9,0.002965083986055106,single_step_resampling_proxy
+swiss_roll,Swiss roll,31,MLE_Exp,220,12,0.9,0.0029291670070961118,single_step_resampling_proxy
+swiss_roll,Swiss roll,31,PMM2/MLE,220,12,0.9,0.0031648330041207373,single_step_resampling_proxy
+swiss_roll,Swiss roll,43,Plugin_Estimator,220,12,0.9,0.0029472080059349537,single_step_resampling_proxy
+swiss_roll,Swiss roll,43,k_Ensemble,220,12,0.9,0.003040500043425709,single_step_resampling_proxy
+swiss_roll,Swiss roll,43,MLE_Exp,220,12,0.9,0.0028783329762518406,single_step_resampling_proxy
+swiss_roll,Swiss roll,43,PMM2/MLE,220,12,0.9,0.003256833995692432,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,11,Plugin_Estimator,220,12,0.8,0.002903291955590248,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,11,k_Ensemble,220,12,0.8,0.0029192909714765847,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,11,MLE_Exp,220,12,0.8,0.003032792010344565,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,11,PMM2/MLE,220,12,0.8,0.003302166995126754,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,17,Plugin_Estimator,220,12,0.8,0.0029063340043649077,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,17,k_Ensemble,220,12,0.8,0.002857542014680803,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,17,MLE_Exp,220,12,0.8,0.002923375053796917,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,17,PMM2/MLE,220,12,0.8,0.0032026669941842556,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,23,Plugin_Estimator,220,12,0.8,0.003479750012047589,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,23,k_Ensemble,220,12,0.8,0.002890709030907601,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,23,MLE_Exp,220,12,0.8,0.002915749966632575,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,23,PMM2/MLE,220,12,0.8,0.003381290996912867,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,31,Plugin_Estimator,220,12,0.8,0.002900666033383459,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,31,k_Ensemble,220,12,0.8,0.002978416974656284,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,31,MLE_Exp,220,12,0.8,0.0029428330017253757,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,31,PMM2/MLE,220,12,0.8,0.0031554580200463533,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,43,Plugin_Estimator,220,12,0.8,0.0030384999699890614,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,43,k_Ensemble,220,12,0.8,0.0029777499730698764,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,43,MLE_Exp,220,12,0.8,0.002922207990195602,single_step_resampling_proxy
+scaling_stress,Scaling stress-test,43,PMM2/MLE,220,12,0.8,0.003184958011843264,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,11,Plugin_Estimator,220,12,0.85,0.002823792048729956,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,11,k_Ensemble,220,12,0.85,0.0028766660252586007,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,11,MLE_Exp,220,12,0.85,0.0028209160082042217,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,11,PMM2/MLE,220,12,0.85,0.0030824579880572855,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,17,Plugin_Estimator,220,12,0.85,0.0028827079804614186,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,17,k_Ensemble,220,12,0.85,0.002890957985073328,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,17,MLE_Exp,220,12,0.85,0.00279441598104313,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,17,PMM2/MLE,220,12,0.85,0.0032130000181496143,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,23,Plugin_Estimator,220,12,0.85,0.0028752079815603793,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,23,k_Ensemble,220,12,0.85,0.0028415420092642307,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,23,MLE_Exp,220,12,0.85,0.0028654589550569654,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,23,PMM2/MLE,220,12,0.85,0.0031161250080913305,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,31,Plugin_Estimator,220,12,0.85,0.002865875023417175,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,31,k_Ensemble,220,12,0.85,0.002907874993979931,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,31,MLE_Exp,220,12,0.85,0.00283987500006333,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,31,PMM2/MLE,220,12,0.85,0.003218374971766025,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,43,Plugin_Estimator,220,12,0.85,0.0028575839824043214,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,43,k_Ensemble,220,12,0.85,0.0028911249828524888,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,43,MLE_Exp,220,12,0.85,0.0028104589437134564,single_step_resampling_proxy
+robotics_proxy,Robotics corridor proxy,43,PMM2/MLE,220,12,0.85,0.0030665830126963556,single_step_resampling_proxy

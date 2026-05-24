@@ -54,6 +54,13 @@ REGIMES: tuple[SpacingRegime, ...] = (
         curvature_proxy=0.50,
         note="symmetric platykurtic PMM3 stress case",
     ),
+    SpacingRegime(
+        name="platykurtic_beta",
+        label="Platykurtic beta",
+        family="beta_platykurtic",
+        curvature_proxy=0.55,
+        note="additional symmetric platykurtic PMM3 stress case",
+    ),
 )
 
 
@@ -83,9 +90,11 @@ def generate_spacings(
         s = np.where(mask, inflated, base)
     elif regime.family == "uniform":
         s = rng.uniform(0.0, 2.0, size=size)
+    elif regime.family == "beta_platykurtic":
+        # Beta(2, 2) on [0, 2] is symmetric with negative excess kurtosis.
+        s = 2.0 * rng.beta(a=2.0, b=2.0, size=size)
     else:
         raise ValueError(f"Unknown spacing family: {regime.family!r}")
 
     s = np.asarray(s, dtype=np.float64)
     return s / np.mean(s)
-

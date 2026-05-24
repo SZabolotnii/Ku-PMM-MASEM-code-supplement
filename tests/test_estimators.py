@@ -77,7 +77,7 @@ def particles_3d():
 # Helper
 # ---------------------------------------------------------------------------
 
-ALL_ESTIMATOR_NAMES = ["Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/PMM3"]
+ALL_ESTIMATOR_NAMES = ["Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/MLE"]
 
 
 def call_estimator(est, particles, k=K, tau=TAU, p=P_DIM, N=N_SMALL):
@@ -359,7 +359,7 @@ def test_get_estimator_returns_correct_type():
     assert isinstance(get_estimator("Plugin_Estimator"), PluginEstimator)
     assert isinstance(get_estimator("k_Ensemble"), kEnsembleEstimator)
     assert isinstance(get_estimator("MLE_Exp"), MLEExpEstimator)
-    assert isinstance(get_estimator("PMM2/PMM3"), PMMEstimator)
+    assert isinstance(get_estimator("PMM2/MLE"), PMMEstimator)
 
 
 # ---------------------------------------------------------------------------

@@ -12,8 +12,9 @@ The reference environment used during package preparation was:
 - NumPy, SciPy, pandas, matplotlib, pytest, hypothesis as declared in
   `requirements.txt`
 
-The manuscript experiments use the self-contained Python/JAX PMM2/PMM3
-implementation in `src/masem/pmm_module.py`.
+The manuscript experiments use the self-contained Python/JAX PMM2/MLE
+implementation in `src/masem/pmm_module.py`.  PMM3-location diagnostics are
+reported separately for symmetric platykurtic regimes.
 
 Create a clean environment:
 
@@ -42,7 +43,14 @@ The driver runs:
 
 1. `experiments.run_known_dgp_mc`
 2. `experiments.run_resampling_proxy`
-3. `experiments.generate_tables_figures`
+3. `experiments.research_pmm3_platykurtic_spacing`
+4. `experiments.generate_tables_figures`
+
+The optional R scripts
+`experiments/research_pmm3_platykurtic_regression.R` and
+`experiments/verify_estempmm_pmm3_uniform.R` require an R installation with
+`EstemPMM`; they are included for auditability but are not part of the default
+Python reproduction driver.
 
 ## Random Seeds and Statistical Protocol
 
@@ -69,6 +77,7 @@ created or updated:
 - `results/component_loss.csv`
 - `results/iteration_proxy.csv`
 - `results/wallclock.csv`
+- `results/pmm3_platykurtic_spacing_research.csv`
 - `tables/tab1.tex`
 - `tables/tab_e1.tex`
 - `tables/tab_e2.tex`

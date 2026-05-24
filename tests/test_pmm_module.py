@@ -8,7 +8,7 @@ Done condition (from tasks.md 1.2):
 Done condition (from tasks.md 1.3):
   - Тест: на Exp(1)-спейсингах full PMM selector відступає до Plugin/MLE
   - Тест: на спотворених спейсингах (c₃≠2, c₄≠6) PMM2 дає нижчий MSE
-  - Тест: правило перемикання PMM2/PMM3 спрацьовує коректно
+  - Тест: правило перемикання PMM2/PMM3-disabled спрацьовує коректно
   - Тест: відкат до Plugin_Estimator при прикордонних кумулянтах
   Requirements: 5.1(a), 6.1(c)
 
@@ -40,6 +40,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 from masem.pmm_module import (
     pmm_density_weights,
     _estimate_cumulants,
+    _estimate_pmm3_moments,
     _is_exp1_like,
     _select_density_estimate,
     _pmm2_density,
@@ -228,7 +229,7 @@ def test_switching_rule_pmm2_for_asymmetric():
 
 def test_switching_rule_pmm3_for_symmetric_platykurtic():
     """
-    When |c₃| ≤ 0.3 AND c₄ < -0.5, PMM3 should be used.
+    When |c₃| ≤ 0.3 AND c₄ < -0.5, PMM3 density adaptation is disabled.
 
     We construct synthetic spacings with near-zero c₃ and negative c₄
     (uniform distribution: c₃=0, c₄=-1.2).
@@ -245,13 +246,11 @@ def test_switching_rule_pmm3_for_symmetric_platykurtic():
     c3_val, c4_val = float(c3), float(c4)
 
     if abs(c3_val) <= 0.3 and c4_val < -0.5:
+        rho_selected = _select_density_estimate(delta, s, c3, c4, N)
         rho_pmm3 = _pmm3_density(delta, s, c4, N)
         rho_mle = _mle_density(delta, N)
-        # PMM3 should differ from MLE
-        max_diff = float(jnp.max(jnp.abs(rho_pmm3 - rho_mle)))
-        assert max_diff > 1e-6, (
-            "PMM3 density identical to MLE despite |c₃| ≤ 0.3 and c₄ < -0.5."
-        )
+        assert jnp.allclose(rho_pmm3, rho_mle, rtol=1e-6, atol=1e-8)
+        assert jnp.allclose(rho_selected, rho_mle, rtol=1e-6, atol=1e-8)
     else:
         pytest.skip(
             f"Uniform spacings gave c₃={c3_val:.2f}, c₄={c4_val:.2f}; "
@@ -513,6 +512,47 @@ def test_cumulant_estimation_uniform():
     )
 
 
+def test_pmm3_estem_formula_uniform_cumulants():
+    """Uniform centered residuals reproduce EstemPMM PMM3 diagnostics."""
+    rng = np.random.default_rng(102)
+    x = jnp.array(rng.uniform(0.0, 2.0, size=(2000, 50)).astype(np.float32))
+    mom = _estimate_pmm3_moments(x)
+
+    assert abs(float(mom.gamma4) + 1.2) < 0.05
+    assert abs(float(mom.gamma6) - (48.0 / 7.0)) < 0.35
+    assert abs(float(mom.g3) - 0.3) < 0.05
+    assert abs(float(mom.kappa) - (9.0 / 7.0)) < 0.08
+
+
+def test_pmm3_no_structural_bias_uniform_large_k():
+    """Disabled PMM3 path must not preserve the old positive-density bias."""
+    rng = np.random.default_rng(103)
+    n, k = 3000, 128
+    s = jnp.array(rng.uniform(0.0, 2.0, size=(n, k)).astype(np.float32))
+    delta = s / n
+    c3, c4 = _estimate_cumulants(s)
+
+    rho = _pmm3_density(delta, s, c4, n)
+    assert abs(float(jnp.mean(rho)) - 1.0) < 0.02
+
+    rho_selected = _select_density_estimate(delta, s, c3, c4, n)
+    rho_mle = _mle_density(delta, n)
+    assert jnp.allclose(rho_selected, rho_mle, rtol=1e-6, atol=1e-8)
+
+
+def test_pmm3_selector_fallback_when_invalid():
+    """Symmetric platykurtic spacings select MLE because PMM3 is disabled."""
+    rng = np.random.default_rng(104)
+    n, k = 900, 32
+    s = jnp.array((2.0 * rng.beta(2.0, 2.0, size=(n, k))).astype(np.float32))
+    s = s / jnp.mean(s)
+    delta = s / n
+    c3, c4 = _estimate_cumulants(s)
+    rho_selected = _select_density_estimate(delta, s, c3, c4, n)
+    rho_mle = _mle_density(delta, n)
+    assert jnp.allclose(rho_selected, rho_mle, rtol=1e-6, atol=1e-8)
+
+
 # ---------------------------------------------------------------------------
 # Test 9: Module importability
 # ---------------------------------------------------------------------------
@@ -673,7 +713,7 @@ def test_task13_pmm2_lower_mse_on_distorted_spacings_c4_ne_6():
 
 # ---------------------------------------------------------------------------
 # Task 1.3 Test C: Switching rule fires correctly
-# Requirement 6.1(c): automatic PMM2/PMM3 switching rule
+# Requirement 6.1(c): automatic PMM2/PMM3-disabled switching rule
 # ---------------------------------------------------------------------------
 
 def test_task13_switching_rule_pmm2_activated_when_c3_large():
@@ -731,7 +771,8 @@ def test_task13_switching_rule_pmm2_activated_when_c3_large():
 def test_task13_switching_rule_pmm3_activated_when_c3_small_c4_negative():
     """
     Task 1.3 — Requirement 6.1(c):
-    When |c₃| ≤ threshold_c3 AND c₄ < threshold_c4 (-0.5), PMM3 must be selected.
+    When |c₃| ≤ threshold_c3 AND c₄ < threshold_c4 (-0.5), PMM3 is disabled
+    and the selector must fall back to MLE.
 
     Uniform[0, 2] spacings have c₃ ≈ 0 and c₄ ≈ -1.2 — ideal for PMM3.
     """
@@ -753,15 +794,12 @@ def test_task13_switching_rule_pmm3_activated_when_c3_small_c4_negative():
             "conditions for PMM3 not met."
         )
 
-    # PMM3 density should differ from MLE density
     rho_mle = _mle_density(delta, N)
     rho_pmm3 = _pmm3_density(delta, s, c4, N)
+    rho_selected = _select_density_estimate(delta, s, c3, c4, N)
 
-    max_diff = float(jnp.max(jnp.abs(rho_pmm3 - rho_mle)))
-    assert max_diff > 1e-6, (
-        f"Task 1.3: PMM3 density identical to MLE despite |c₃|={abs(c3_val):.2f} ≤ 0.3 "
-        f"and c₄={c4_val:.2f} < -0.5. Switching rule should activate PMM3 correction."
-    )
+    assert jnp.allclose(rho_pmm3, rho_mle, rtol=1e-6, atol=1e-8)
+    assert jnp.allclose(rho_selected, rho_mle, rtol=1e-6, atol=1e-8)
 
 
 def test_task13_switching_rule_fallback_on_exp1_spacings():

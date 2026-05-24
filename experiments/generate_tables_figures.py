@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT))
 from experiments.stats_protocol import format_mean_ci, holm_bonferroni, paired_ttest, summarize
 
 
-ESTIMATORS = ["Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/PMM3"]
+ESTIMATORS = ["Plugin_Estimator", "k_Ensemble", "MLE_Exp", "PMM2/MLE"]
 MARKERS = ["o", "s", "^", "D"]
 LINESTYLES = ["-", "--", "-.", ":"]
 COLORS = ["0.00", "0.25", "0.55", "0.00"]
@@ -27,7 +27,7 @@ OFFSETS = {
     "Plugin_Estimator": -0.060,
     "k_Ensemble": -0.020,
     "MLE_Exp": 0.020,
-    "PMM2/PMM3": 0.060,
+    "PMM2/MLE": 0.060,
 }
 
 
@@ -38,6 +38,15 @@ def _offset_for(estimator: str, scale: float = 1.0) -> float:
 
 def _tex_escape(text: str) -> str:
     return text.replace("_", "\\_")
+
+
+def _selector_label(action: str) -> str:
+    labels = {
+        "MLE_fallback": "MLE fallback",
+        "PMM3_disabled": "PMM3-location diagnostic",
+        "PMM2": "PMM2",
+    }
+    return labels.get(action, action.replace("_", " "))
 
 
 def _write(path: Path, text: str) -> None:
@@ -53,7 +62,7 @@ def _savefig(path: Path) -> None:
 
 
 def _table_tab1(known: pd.DataFrame) -> None:
-    pmm = known[known["estimator"] == "PMM2/PMM3"].copy()
+    pmm = known[known["estimator"] == "PMM2/MLE"].copy()
     rows = []
     order = [
         "flat_exp",
@@ -61,31 +70,37 @@ def _table_tab1(known: pd.DataFrame) -> None:
         "strong_curved_gamma",
         "boundary_mixture",
         "platykurtic_uniform",
+        "platykurtic_beta",
     ]
     for regime in order:
         sub = pmm[pmm["regime"] == regime]
         c3 = summarize(sub["c3"])
         c4 = summarize(sub["c4"])
         g2 = summarize(sub["g2"])
+        gamma6 = summarize(sub["gamma6"])
+        g3 = summarize(sub["g3_estem"])
         action = sub["selector_branch"].mode().iloc[0]
         label = sub["regime_label"].iloc[0]
         rows.append(
             f"{_tex_escape(label)} & {c3.mean:.3f} & {c4.mean:.3f} & "
-            f"{g2.mean:.3f} & {_tex_escape(action)} \\\\"
+            f"{g2.mean:.3f} & {gamma6.mean:.3f} & {g3.mean:.3f} & "
+            f"{_tex_escape(_selector_label(action))} \\\\"
         )
 
     body = "\n".join(rows)
     text = rf"""\begin{{table}}[t]
 \centering
-\caption{{Empirical kNN-spacing regimes in the Known-DGP Monte Carlo.  Values are means over five seeds; $g_2=1-c_3^2/(2+c_4)$ is diagnostic and is not interpreted as an end-to-end gain.}}
+\caption{{Empirical kNN-spacing regimes in the Known-DGP Monte Carlo.  Values are means over five seeds; $g_2$ is the coefficient in Eq.~\eqref{{eq:pmm2_variance_coefficient}}, and $g_3$ is the PMM3 efficiency coefficient for symmetric distributions in Eq.~\eqref{{eq:pmm3_variance_coefficient}}.  Neither coefficient is interpreted as an end-to-end gain.}}
 \label{{tab:spacing_regimes}}
-\begin{{tabular}}{{lrrrr}}
+\resizebox{{\linewidth}}{{!}}{{%
+\begin{{tabular}}{{lrrrrrr}}
 \toprule
-Regime & $c_3$ & $c_4$ & $g_2$ & selector \\
+Regime & $c_3$ & $c_4$ & $g_2$ & $\gamma_6$ & $g_3$ & selector \\
 \midrule
 {body}
 \bottomrule
-\end{{tabular}}
+\end{{tabular}}%
+}}
 \end{{table}}
 """
     _write(ROOT / "tables" / "tab1.tex", text)
@@ -122,7 +137,7 @@ def _table_tab_e1(main: pd.DataFrame) -> None:
         rows.append(f"{_tex_escape(benchmark)} & " + " & ".join(cells) + r" \\")
 
     body = "\n".join(rows)
-    header = "Benchmark & Plugin & $k$-Ens. & MLE-Exp & PMM2/PMM3 \\\\"
+    header = "Benchmark & Plugin & $k$-Ens. & MLE-Exp & PMM2/MLE \\\\"
     text = rf"""\begin{{table*}}[t]
 \centering
 \caption{{Single-step resampling-proxy $W_2^2$ results.  Entries are mean $\pm$ 95\% CI over five seeds; parentheses report Holm-adjusted paired $p$-values against Plugin.  This table is weight-rule evidence, not a full NHR/OLLA MASEM benchmark.}}
@@ -164,7 +179,7 @@ def _table_tab_e2(tau: pd.DataFrame) -> None:
 \label{{tab:tau_tolerance}}
 \begin{{tabular}}{{lrrrr}}
 \toprule
-Benchmark & Plugin & $k$-Ens. & MLE-Exp & PMM2/PMM3 \\
+Benchmark & Plugin & $k$-Ens. & MLE-Exp & PMM2/MLE \\
 \midrule
 {body}
 \bottomrule

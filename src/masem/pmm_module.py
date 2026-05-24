@@ -1,5 +1,5 @@
 """
-PMM2/PMM3 density estimation module for PMM-MASEM.
+PMM2 density estimation module for PMM-MASEM.
 
 Implements Algorithm 1 from the paper:
   "Variance-reduced manifold sampling via polynomial-maximization density estimation"
@@ -19,12 +19,19 @@ The standardised cumulants c₃ and c₄ capture this deviation.
 PMM2 (asymmetric non-Exp errors, |c₃| > threshold):
     ρ̂_PMM2(xᵢ) = 1/(N·mean_Δᵢ) · (1 + c₃·(m₁ᵢ − m₁)/(2 + c₄))
 
-PMM3 (symmetric platykurtic errors, |c₃| ≤ threshold AND c₄ < 0):
-    ρ̂_PMM3(xᵢ) = 1/(N·mean_Δᵢ) · (1 − c₄·((m₂ᵢ/m₁ᵢ²) − 1)/(6 + 9·c₄ + 15))
+PMM3 status
+-----------
+EstemPMM PMM3 is a regression-residual estimator with centered residuals,
+gamma6, kappa, and the score eps * (kappa - eps^2).  The previous PMM-MASEM
+code used a non-centered spacing-ratio correction with a fixed ``+15`` sixth
+order surrogate.  That correction has structural bias on Uniform(0, 2)
+positive spacings and is not a valid density estimator.  Until a proper
+positive-spacing estimating equation is derived, PMM3 density adaptation is
+disabled and the selector falls back to MLE in symmetric platykurtic regimes.
 
 Variance reduction coefficients:
     g₂ = 1 − c₃²/(2 + c₄)
-    g₃ = 1 − c₄²/(6 + 9·c₄ + 15)   [c₆ ≈ 15 for near-Gaussian]
+    g₃ = 1 − gamma4²/(6 + 9·gamma4 + gamma6)  [diagnostic only]
 
 References
 ----------
@@ -35,6 +42,7 @@ References
 from __future__ import annotations
 
 import warnings
+from typing import NamedTuple
 
 import jax
 import jax.numpy as jnp
@@ -53,6 +61,21 @@ _THRESHOLD_C4: float = -0.5  # c₄ < this → PMM3 (platykurtic, when |c₃| �
 _THRESHOLD_EXP_C3: float = 0.4  # Exp(1) flat-regime tolerance around c₃=2
 _THRESHOLD_EXP_C4: float = 1.5  # Exp(1) flat-regime tolerance around c₄=6
 _MIN_DENOM: float = 0.1      # 2 + c₄ must exceed this to avoid division by zero
+
+
+class PMM3Moments(NamedTuple):
+    """EstemPMM-compatible centered PMM3 diagnostics."""
+
+    m2: Array
+    m4: Array
+    m6: Array
+    gamma3: Array
+    gamma4: Array
+    gamma6: Array
+    g3: Array
+    kappa: Array
+    denom_g3: Array
+    denom_kappa: Array
 
 
 # ---------------------------------------------------------------------------
@@ -94,6 +117,54 @@ def _estimate_cumulants(s: Array) -> tuple[Array, Array]:
     c4 = mu4 / (mu2_safe ** 2) - 3.0
 
     return c3, c4
+
+
+def _estimate_pmm3_moments(x: Array) -> PMM3Moments:
+    """
+    Compute EstemPMM PMM3 centered diagnostics up to sixth order.
+
+    This is intentionally a diagnostic utility, not a PMM-MASEM density
+    estimator.  EstemPMM PMM3 applies to centered regression residuals; positive
+    shell spacings need a separate derivation before PMM3 can be enabled here.
+    """
+    x_flat = x.ravel()
+    eps = x_flat - jnp.mean(x_flat)
+    raw_m2 = jnp.mean(eps ** 2)
+    eps = eps / jnp.sqrt(jnp.maximum(raw_m2, 1e-12))
+    m2 = jnp.mean(eps ** 2)
+    m3 = jnp.mean(eps ** 3)
+    m4 = jnp.mean(eps ** 4)
+    m6 = jnp.mean(eps ** 6)
+
+    m2_safe = jnp.maximum(m2, 1e-12)
+    gamma3 = m3 / (m2_safe ** 1.5)
+    gamma4 = m4 / (m2_safe ** 2) - 3.0
+    gamma6 = m6 / (m2_safe ** 3) - 15.0 * (m4 / (m2_safe ** 2)) + 30.0
+
+    denom_g3 = 6.0 + 9.0 * gamma4 + gamma6
+    g3_raw = 1.0 - gamma4 ** 2 / jnp.maximum(denom_g3, 1e-12)
+    g3 = jnp.where(denom_g3 > 0.0, g3_raw, jnp.nan)
+
+    denom_kappa = m4 - 3.0 * m2 ** 2
+    kappa_raw = (m6 - 3.0 * m4 * m2) / jnp.where(
+        jnp.abs(denom_kappa) > 1e-12,
+        denom_kappa,
+        1.0,
+    )
+    kappa = jnp.where(jnp.abs(denom_kappa) > 1e-12, kappa_raw, jnp.nan)
+
+    return PMM3Moments(
+        m2=m2,
+        m4=m4,
+        m6=m6,
+        gamma3=gamma3,
+        gamma4=gamma4,
+        gamma6=gamma6,
+        g3=g3,
+        kappa=kappa,
+        denom_g3=denom_g3,
+        denom_kappa=denom_kappa,
+    )
 
 
 def _is_exp1_like(
@@ -204,9 +275,11 @@ def _pmm3_density(
     N: int,
 ) -> Array:
     """
-    PMM3 density estimate for each particle.
+    Disabled PMM3 density estimate for each particle.
 
-    ρ̂_PMM3(xᵢ) = 1/(N·mean_Δᵢ) · (1 − c₄·((m₂ᵢ/m₁ᵢ²) − 1)/(6 + 9·c₄ + 15))
+    The previous correction was not EstemPMM-compatible and used a fake sixth
+    order surrogate.  Returning MLE here keeps legacy imports/tests finite while
+    preventing accidental use of the invalid PMM3 density adaptation.
 
     Parameters
     ----------
@@ -222,23 +295,10 @@ def _pmm3_density(
     Returns
     -------
     rho : Array, shape (N,)
-        PMM3 density estimates.
+        MLE fallback density estimates.
     """
-    mean_delta = jnp.mean(delta, axis=1)                    # (N,)
-    rho_mle = 1.0 / (N * jnp.maximum(mean_delta, 1e-37))   # (N,)
-
-    m1i, m2i = _particle_moments(s)                         # (N,), (N,)
-
-    # Ratio m₂ᵢ / m₁ᵢ² — guard against near-zero m₁ᵢ
-    m1i_sq = jnp.maximum(m1i ** 2, 1e-10)
-    ratio = m2i / m1i_sq                                    # (N,)
-
-    # Denominator: 6 + 9·c₄ + 15 = 21 + 9·c₄  (c₆ ≈ 15 assumed)
-    denom = 6.0 + 9.0 * c4 + 15.0
-    correction = c4 * (ratio - 1.0) / jnp.maximum(jnp.abs(denom), _MIN_DENOM)
-    rho_pmm3 = rho_mle * (1.0 - correction)
-
-    return jnp.maximum(rho_pmm3, 1e-37)
+    del s, c4
+    return _mle_density(delta, N)
 
 
 # ---------------------------------------------------------------------------
@@ -273,9 +333,8 @@ def _select_density_estimate(
     threshold_exp_c3: float = _THRESHOLD_EXP_C3,
     threshold_exp_c4: float = _THRESHOLD_EXP_C4,
 ) -> Array:
-    """Select PMM2, PMM3, or MLE density according to the switching rule."""
+    """Select PMM2 or MLE density according to the guarded switching rule."""
     rho_pmm2 = _pmm2_density(delta, s, c3, c4, N)   # (N,)
-    rho_pmm3 = _pmm3_density(delta, s, c4, N)        # (N,)
     rho_mle = _mle_density(delta, N)                 # (N,)
 
     exp1_like = _is_exp1_like(c3, c4, threshold_exp_c3, threshold_exp_c4)
@@ -285,25 +344,11 @@ def _select_density_estimate(
     g2 = 1.0 - c3 ** 2 / jnp.maximum(denom_pmm2, 1e-10)
     pmm2_valid = (denom_pmm2 >= _MIN_DENOM) & (g2 >= 0.0) & (g2 <= 1.0)
 
-    # Validity checks for PMM3
-    denom_pmm3 = 6.0 + 9.0 * c4 + 15.0
-    g3 = 1.0 - c4 ** 2 / jnp.maximum(jnp.abs(denom_pmm3), 1e-10)
-    pmm3_valid = (jnp.abs(denom_pmm3) >= _MIN_DENOM) & (g3 >= 0.0) & (g3 <= 1.0)
-
     # PMM is only eligible outside the flat Exp(1) regime.
     use_pmm2 = (~exp1_like) & (jnp.abs(c3) > threshold_c3) & pmm2_valid
-    use_pmm3 = (
-        (~exp1_like)
-        & (jnp.abs(c3) <= threshold_c3)
-        & (c4 < threshold_c4)
-        & pmm3_valid
-    )
 
-    return jnp.where(
-        use_pmm2,
-        rho_pmm2,
-        jnp.where(use_pmm3, rho_pmm3, rho_mle),
-    )
+    del threshold_c4
+    return jnp.where(use_pmm2, rho_pmm2, rho_mle)
 
 
 # ---------------------------------------------------------------------------
@@ -323,7 +368,7 @@ def pmm_density_weights(
     **kwargs,
 ) -> Array:
     """
-    PMM2/PMM3 density estimation with automatic switching rule.
+    PMM2 density estimation with automatic switching rule.
 
     Algorithm 1 from the paper:
       1. Compute sorted kNN distances εᵢ,₁ ≤ … ≤ εᵢ,ₖ
@@ -332,7 +377,7 @@ def pmm_density_weights(
       4. Estimate c₃, c₄ from pooled spacings
       5. if (c₃,c₄) ≈ (2,6): fallback to MLE_Exp (flat Plugin/MLE regime)
          elif |c₃| > threshold_c3: use PMM2
-         elif c₃ ≈ 0 and c₄ < threshold_c4: use PMM3
+         elif c₃ ≈ 0 and c₄ < threshold_c4: PMM3 disabled, fallback to MLE_Exp
          else: fallback to MLE_Exp
       6. Compute weights: wᵢ = ρ̂ᵢ^{−τ}, normalise
 
